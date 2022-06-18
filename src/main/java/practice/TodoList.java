@@ -16,7 +16,7 @@ public class TodoList {
         //  проверьте возможность добавления
         if (index >= todoList.size()) {
             todoList.add(todo);
-        } else todoList.add(index, todo);
+        } else {todoList.add(index, todo);}
     }
 
     public void edit(int index, String todo) {
@@ -24,7 +24,7 @@ public class TodoList {
         //  проверьте возможность изменения
         if (index >= todoList.size()) {
             System.out.println("Дело с таким номером не существует");
-        } else todoList.set(index, todo);
+        } else {todoList.set(index, todo);}
     }
 
     public void delete(int index) {
@@ -32,7 +32,7 @@ public class TodoList {
         //  проверьте возможность удаления дела
         if (index >= todoList.size()) {
             System.out.println("Дело с таким номером не существует");
-        } else todoList.remove(index);
+        } else {todoList.remove(index);}
     }
 
     public ArrayList<String> getTodos() {

@@ -13,58 +13,77 @@ public class Main {
         while (true) {
             String userString = new Scanner(System.in).nextLine();
 
-            String regex = "[0-9]+";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(userString);
-
-            if (userString.contains("ADD") && matcher.find()) {
-                int start = userString.indexOf("ADD");
-                int space1 = userString.indexOf(' ', start);
-                int space2 = userString.indexOf(' ', space1 + 1);
-                String number = userString.substring(space1 + 1, space2);
-                int index = Integer.parseInt(number);
-                String text = userString.substring(space2 + 1);
-                todoList.add(index, text);
-                System.out.println("Добавлено дело " + "\"" + text + "\"");
-                continue;
-            }
             if (userString.contains("ADD")) {
-                int start = userString.indexOf("ADD");
-                int space1 = userString.indexOf(' ', start);
-                String text = userString.substring(space1 + 1);
-                todoList.add(text);
-                System.out.println("Добавлено дело " + "\"" + text + "\"");
+                String regex = "[0-9]+";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(userString);
+                if (matcher.find()) {
+                    addAndNumber(userString);
+                } else {
+                    add(userString);
+                }
                 continue;
             }
             if (userString.contains("EDIT")) {
-                int start = userString.indexOf("EDIT");
-                int space1 = userString.indexOf(' ', start);
-                int space2 = userString.indexOf(' ', space1 + 1);
-                String number = userString.substring(space1 + 1, space2);
-                int index = Integer.parseInt(number);
-                String text = userString.substring(space2 + 1);
-                String oldText = todoList.getTodos(index);
-                todoList.edit(index, text);
-                System.out.println("Дело " + "\"" + oldText + "\"" + " Заменено на " + "\"" + text + "\"");
+                edit(userString);
                 continue;
             }
             if (userString.contains("DELETE")) {
-                int start = userString.indexOf("DELETE");
-                int space1 = userString.indexOf(' ', start);
-                String number = userString.substring(space1 + 1);
-                int index = Integer.parseInt(number);
-                if (index > todoList.getArraySize()) {
-                    todoList.delete(index);
-                    continue;
-                }
-                String oldText = todoList.getTodos(index);
-                todoList.delete(index);
-                System.out.println("Дело " + "\"" + oldText + "\"" + " удалено");
+                delete(userString);
                 continue;
             }
             if (userString.contains("LIST")) {
                 todoList.getList();
             }
+        }
+    }
+
+    public static void add(String userString) {
+        int start = userString.indexOf("ADD");
+        int space1 = userString.indexOf(' ', start);
+        String text = userString.substring(space1 + 1);
+        todoList.add(text);
+        System.out.println("Добавлено дело " + "\"" + text + "\"");
+    }
+
+    public static void addAndNumber(String userString) {
+        int start = userString.indexOf("ADD");
+        int space1 = userString.indexOf(' ', start);
+        int space2 = userString.indexOf(' ', space1 + 1);
+        String number = userString.substring(space1 + 1, space2);
+        int index = Integer.parseInt(number);
+        String text = userString.substring(space2 + 1);
+        todoList.add(index, text);
+        System.out.println("Добавлено дело " + "\"" + text + "\"");
+    }
+
+    public static void edit(String userString) {
+        int start = userString.indexOf("EDIT");
+        int space1 = userString.indexOf(' ', start);
+        int space2 = userString.indexOf(' ', space1 + 1);
+        String number = userString.substring(space1 + 1, space2);
+        int index = Integer.parseInt(number);
+        String text = userString.substring(space2 + 1);
+        if (index > todoList.getArraySize()) {
+            todoList.edit(index, text);
+        }else {
+            String oldText = todoList.getTodos(index);
+            todoList.edit(index, text);
+            System.out.println("Дело " + "\"" + oldText + "\"" + " Заменено на " + "\"" + text + "\"");
+        }
+    }
+
+    public static void delete(String userString) {
+        int start = userString.indexOf("DELETE");
+        int space1 = userString.indexOf(' ', start);
+        String number = userString.substring(space1 + 1);
+        int index = Integer.parseInt(number);
+        if (index > todoList.getArraySize()) {
+            todoList.delete(index);
+        } else {
+            String oldText = todoList.getTodos(index);
+            todoList.delete(index);
+            System.out.println("Дело " + "\"" + oldText + "\"" + " удалено");
         }
     }
 }
